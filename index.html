@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
+<html ng-app="ToastApp">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
 </head>
-<body>
+<body ng-controller="ToastController as ctrl">
 
-    <h1>Test page</h1>
-
-
+    <h1>{{ctrl.head}}</h1>
 
 
+
+    <toast></toast>
 
     <script src="bower_components/angular/angular.js"></script>
     <script src="src/js/module.js"></script>
