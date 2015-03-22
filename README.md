@@ -1,3 +1,3 @@
-# pjToast AngularJS notifications
+# pjToast
 
 t.b.a
