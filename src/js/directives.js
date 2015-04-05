@@ -1,10 +1,9 @@
 (function(window, angular) {
     'use strict';
-
-
     var pjToast = angular.module('pjToast.directives', ['pjToast.factories']);
-    pjToast.directive('toast', ['ToastFactory', '$log',
-        function(ToastFactory, $log) {
+
+    pjToast.directive('toast', ['ToastFactory', '$log', '$window', '$timeout',
+        function(ToastFactory, $log, $window, $timeout) {
             return {
                 restrict: 'EA',
                 template:
@@ -12,11 +11,7 @@
                 '<toast-message message="message"></toast-message>' +
                 '</div>',
                 compile : function(element, attrs){
-
-
-
                     return function(scope) {
-                        $log.info('toast link');
                         var callback = function() {
                             scope.message = ToastFactory.getActiveMessage();
                         };
@@ -24,7 +19,15 @@
                         scope.$on("$destroy", function(){
                             ToastFactory.unregisterCallback();
                         });
-
+                        var center = function (element) {
+                            element.css('position', 'absolute');
+                            element.css("top", Math.max(0, $window.scrollY +  $window.innerHeight - (element[0].offsetHeight * 2) ) + "px");
+                            element.css("left", Math.max(0, (($window.innerWidth - element[0].offsetWidth) / 2) + $window.scrollX) + "px");
+                        };
+                        scope.resize = function(){
+                            $timeout(function(){ center(element); },0);
+                        };
+                        scope.resize();
                     };
                 }
             };
@@ -66,18 +69,5 @@
         }
     ]);
 
-
-    /*
-    *
-     jQuery.fn[ "outer" + name ] = function( margin ) {
-     var elem = this[0];
-     return elem ?
-     elem.style ?
-     parseFloat( jQuery.css( elem, type, margin ? "margin" : "border" ) ) :
-     this[ type ]() :
-     null;
-     };
-    *
-    * */
 
 })(window, window.angular);
