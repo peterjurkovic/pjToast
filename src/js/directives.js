@@ -1,65 +1,87 @@
-(function(window, angular) {
-    'use strict';
+'use strict';
+
     var pjToast = angular.module('pjToast.directives', ['pjToast.factories']);
 
-    pjToast.directive('toast', ['ToastFactory', '$log', '$window', '$timeout',
-        function(ToastFactory, $log, $window, $timeout) {
+    pjToast.directive('toast', ['Toast', '$log', '$window', '$timeout',
+        function(Toast, $log, $window, $timeout) {
             return {
                 restrict: 'EA',
+                replace : true,
                 template:
-                '<div id="pj-toast" >' +
+                '<div class="{{config.wrappClassName}}" ng-show="message" >' +
                 '<toast-message message="message"></toast-message>' +
                 '</div>',
-                compile : function(element, attrs){
-                    return function(scope) {
-                        var callback = function() {
-                            scope.message = ToastFactory.getActiveMessage();
-                        };
-                        ToastFactory.registerCallback(callback);
-                        scope.$on("$destroy", function(){
-                            ToastFactory.unregisterCallback();
-                        });
-                        var center = function (element) {
-                            element.css('position', 'absolute');
-                            element.css("top", Math.max(0, $window.scrollY +  $window.innerHeight - (element[0].offsetHeight * 2) ) + "px");
-                            element.css("left", Math.max(0, (($window.innerWidth - element[0].offsetWidth) / 2) + $window.scrollX) + "px");
-                        };
-                        scope.resize = function(){
-                            $timeout(function(){ center(element); },0);
-                        };
+                 link : function(scope, element, attrs){
+                    scope.config = Toast.config();
+                    var center = function (element) {
+                        element
+                        .css('z-index', '999')
+                        .css('position', 'absolute')
+                        .css("top", calculateTopPos() + "px")
+                        .css("left", calculateLeftPos() + "px");
+
+                        function calculateTopPos(){
+                            return Math.max(0, $window.scrollY +  $window.innerHeight - element[0].offsetHeight * 2 );
+                        }
+
+                        function calculateLeftPos(){
+                            return Math.max(0, (($window.innerWidth - element[0].offsetWidth) / 2) + $window.scrollX);
+                        }
+                    };
+
+                    scope.resize = function(){
+                        $timeout(function(){ center(element); },0);
+                    };
+                    scope.resize();
+
+                    var callback = function() {
+                        scope.message = Toast.getActiveMessage();
                         scope.resize();
                     };
+
+                    Toast.registerCallback(callback);
+
+                    scope.$on("$destroy", function(){
+                        Toast.unregisterCallback();
+                    });
+                    if(scope.config.centerOnScroll){
+                        angular.element($window).bind("scroll", function() {
+                            if(scope.message){
+                                scope.resize();
+                            }
+                        });
+                    }
                 }
             };
         }
     ]);
 
 
-    pjToast.directive('toastMessage', ['$timeout', '$compile', 'ToastFactory',
-        function($timeout, $compile, ToastFactory) {
+    pjToast.directive('toastMessage', ['$timeout', '$compile', 'Toast',
+        function($timeout, $compile, Toast) {
             return {
                 restrict: 'EA',
                 scope: {
                     message: '='
                 },
                 template:
-                '<div class="alert alert-{{message.className}}">' +
+                '<div class="alert alert-{{message.msgClassName}}">' +
+                '{{message.content}}' +
                 '<button type="button" class="close" ' +
                 'ng-if="message.dismissButton" ' +
                 'ng-bind-html="message.dismissButtonHtml" ' +
                 'ng-click="!message.dismissOnClick && dismiss()"></button>' +
-                '{{message.content}}' +
                 '</div>',
                 link: function(scope, element, attrs) {
                     scope.$watch('message', function(){
                         if (scope.message.dismissOnTimeout) {
                             $timeout(function() {
-                                scope.message = ToastFactory.dismiss();
+                                scope.message = Toast.dismiss();
                             }, scope.message.timeout);
                         }
                         if (scope.message.dismissOnClick) {
                             element.bind('click', function() {
-                                scope.message = ToastFactory.dismiss();
+                                scope.message = Toast.dismiss();
                             });
                         }
                     });
@@ -69,5 +91,3 @@
         }
     ]);
 
-
-})(window, window.angular);
