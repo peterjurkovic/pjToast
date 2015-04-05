@@ -8,6 +8,6 @@ pjToast is a simple Angular module for toast notifications. This Toast notificat
 
 1. Install via [Bower](http://bower.io/):
   ```console
-  bower install pjtoast --save
+  bower install pjToast --save
   ```
  
