@@ -1,34 +1,56 @@
-(function(window, angular) {
-    'use strict';
+'use strict';
+
     var pjToast = angular.module('pjToast.directives', ['pjToast.factories']);
 
     pjToast.directive('toast', ['Toast', '$log', '$window', '$timeout',
         function(Toast, $log, $window, $timeout) {
             return {
                 restrict: 'EA',
+                replace : true,
                 template:
-                '<div class="pj-toast" ng-show="message" >' +
+                '<div class="{{config.wrappClassName}}" ng-show="message" >' +
                 '<toast-message message="message"></toast-message>' +
                 '</div>',
-                compile : function(element, attrs){
-                    return function(scope) {
-                        var callback = function() {
-                            scope.message = Toast.getActiveMessage();
-                        };
-                        Toast.registerCallback(callback);
-                        scope.$on("$destroy", function(){
-                            Toast.unregisterCallback();
-                        });
-                        var center = function (element) {
-                            element.css('position', 'absolute');
-                            element.css("top", Math.max(0, $window.scrollY +  $window.innerHeight - (element[0].offsetHeight * 2) ) + "px");
-                            element.css("left", Math.max(0, (($window.innerWidth - element[0].offsetWidth) / 2) + $window.scrollX) + "px");
-                        };
-                        scope.resize = function(){
-                            $timeout(function(){ center(element); },0);
-                        };
+                 link : function(scope, element, attrs){
+                    scope.config = Toast.config();
+                    var center = function (element) {
+                        element
+                        .css('z-index', '999')
+                        .css('position', 'absolute')
+                        .css("top", calculateTopPos() + "px")
+                        .css("left", calculateLeftPos() + "px");
+
+                        function calculateTopPos(){
+                            return Math.max(0, $window.scrollY +  $window.innerHeight - element[0].offsetHeight * 2 );
+                        }
+
+                        function calculateLeftPos(){
+                            return Math.max(0, (($window.innerWidth - element[0].offsetWidth) / 2) + $window.scrollX);
+                        }
+                    };
+
+                    scope.resize = function(){
+                        $timeout(function(){ center(element); },0);
+                    };
+                    scope.resize();
+
+                    var callback = function() {
+                        scope.message = Toast.getActiveMessage();
                         scope.resize();
                     };
+
+                    Toast.registerCallback(callback);
+
+                    scope.$on("$destroy", function(){
+                        Toast.unregisterCallback();
+                    });
+                    if(scope.config.centerOnScroll){
+                        angular.element($window).bind("scroll", function() {
+                            if(scope.message){
+                                scope.resize();
+                            }
+                        });
+                    }
                 }
             };
         }
@@ -43,7 +65,7 @@
                     message: '='
                 },
                 template:
-                '<div class="alert alert-{{message.className}}">' +
+                '<div class="alert alert-{{message.msgClassName}}">' +
                 '{{message.content}}' +
                 '<button type="button" class="close" ' +
                 'ng-if="message.dismissButton" ' +
@@ -69,8 +91,6 @@
         }
     ]);
 
-
-})(window, window.angular);
 
 (function(window, angular) {
     'use strict';

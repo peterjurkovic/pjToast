@@ -1,10 +1,12 @@
 {
   "name": "pjToast",
-  "description": "AngularJS Toeast",
+  "description": "AngularJS Toast",
   "version": "1.0.0",
-  "homepage": "https://github.com/angular/angular-seed",
+  "main": [
+    "dist/pjToast.js"
+  ],
+  "homepage": "https://github.com/peterjurkovic/pjToast",
   "license": "MIT",
-  "private": true,
   "authors": [
     "Peter Jurkovic (http://peterjurkovic.com)"
   ],
