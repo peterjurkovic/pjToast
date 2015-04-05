@@ -1,11 +1,8 @@
-(function(window, angular) {
-    'use strict';
+'use strict';
 
-    angular.module('pjToast', [
-            'ngSanitize',
-            'pjToast.directives',
-            'pjToast.factories'
-        ]
-    );
-
-})(window, window.angular);
+angular.module('pjToast', [
+        'ngSanitize',
+        'pjToast.directives',
+        'pjToast.factories'
+    ]
+);

@@ -12,11 +12,22 @@ app.controller('ToastController', function(Toast, $scope){
     that.head = 'pjToast test controller';
 
 
-    Toast.info('from controller ' + new Date());
 
 
-    $scope.show = function(){
-        Toast.danger('test ' + new Date());
+    $scope.infoToast = function(){
+        Toast.info('This is info Toast message!');
+    };
+
+    $scope.successToast = function(){
+        Toast.success('This is success Toast message!');
+    };
+
+    $scope.warningToast = function(){
+        Toast.warning('This is warning Toast message!');
+    };
+
+    $scope.dangerToast = function(){
+        Toast.danger('This is danger Toast message!');
     };
 });
 

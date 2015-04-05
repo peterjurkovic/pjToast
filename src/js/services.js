@@ -1,25 +1,25 @@
 'use strict';
 
     angular.module('pjToast.factories', [])
-    .factory('Toast' , function($log) {
+    .factory('Toast' , ['$log', function($log) {
 
-            var activeMessage = false,
-                messageQueue = [],
-                callBack = null,
-                defaults = {
-                    wrappClassName : 'pj-toast',
-                    msgClassName: '',
-                    dismissOnTimeout: true,
-                    timeout: 4000,
-                    dismissButton: true,
-                    dismissButtonHtml: '&times;',
-                    dismissOnClick: true,
-                    centerOnScroll : true
-                };
+        var activeMessage = false,
+            messageQueue = [],
+            callBack = null,
+            defaults = {
+                wrappClassName : 'pj-toast',
+                msgClassName: '',
+                dismissOnTimeout: true,
+                timeout: 4000,
+                dismissButton: true,
+                dismissButtonHtml: '&times;',
+                dismissOnClick: true,
+                centerOnScroll : true
+            };
 
-            // Public ---------------------------------------
+        // Public ---------------------------------------
 
-            var registerCallback = function(cb){
+        var registerCallback = function(cb){
                 if(angular.isFunction(cb)){
                     callBack = cb;
                     callBack();
@@ -71,36 +71,36 @@
                     return defaults;
                 }
             };
-            // Private ---------------------------------------
+        // Private ---------------------------------------
 
-            function create( message, className  ){
-                if(typeof message === 'string'){
-                    message = {
-                        content: message,
-                        msgClassName : className
-                    };
-                }
-                var newMessage = new Message(message);
-                if(activeMessage){
-                    messageQueue.push(newMessage);
-                }else{
-                    activeMessage = newMessage;
-                }
-                if(callBack){
-                    callBack();
-                }
+        function create( message, className  ){
+            if(typeof message === 'string'){
+                message = {
+                    content: message,
+                    msgClassName : className
+                };
             }
-
-
-            function Message(msg) {
-                this.msgClassName = defaults.msgClassName;
-                this.dismissOnTimeout = defaults.dismissOnTimeout;
-                this.timeout = defaults.timeout;
-                this.dismissButton = defaults.dismissButton;
-                this.dismissButtonHtml = defaults.dismissButtonHtml;
-                this.dismissOnClick = defaults.dismissOnClick;
-                angular.extend(this, msg);
+            var newMessage = new Message(message);
+            if(activeMessage){
+                messageQueue.push(newMessage);
+            }else{
+                activeMessage = newMessage;
             }
+            if(callBack){
+                callBack();
+            }
+        }
+
+
+        function Message(msg) {
+            this.msgClassName = defaults.msgClassName;
+            this.dismissOnTimeout = defaults.dismissOnTimeout;
+            this.timeout = defaults.timeout;
+            this.dismissButton = defaults.dismissButton;
+            this.dismissButtonHtml = defaults.dismissButtonHtml;
+            this.dismissOnClick = defaults.dismissOnClick;
+            angular.extend(this, msg);
+        }
 
         return {
             success : success,
@@ -113,5 +113,4 @@
             registerCallback : registerCallback,
             unregisterCallback : unregisterCallback
         };
-    });
-
+    }]);

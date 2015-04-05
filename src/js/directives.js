@@ -1,8 +1,7 @@
 'use strict';
 
-    var pjToast = angular.module('pjToast.directives', ['pjToast.factories']);
-
-    pjToast.directive('toast', ['Toast', '$log', '$window', '$timeout',
+   angular.module('pjToast.directives', ['pjToast.factories'])
+    .directive('toast', ['Toast', '$log', '$window', '$timeout',
         function(Toast, $log, $window, $timeout) {
             return {
                 restrict: 'EA',
@@ -54,11 +53,9 @@
                 }
             };
         }
-    ]);
-
-
-    pjToast.directive('toastMessage', ['$timeout', '$compile', 'Toast',
-        function($timeout, $compile, Toast) {
+    ])
+    .directive('toastMessage', ['$timeout', 'Toast',
+        function($timeout, Toast) {
             return {
                 restrict: 'EA',
                 scope: {
@@ -85,6 +82,9 @@
                             });
                         }
                     });
+                    scope.dismiss = function() {
+                        Toast.dismiss();
+                    };
 
                 }
             };

@@ -1,14 +1,14 @@
 {
   "name": "pjToast",
   "description": "AngularJS Toast",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": [
     "dist/pjToast.js"
   ],
   "homepage": "https://github.com/peterjurkovic/pjToast",
   "license": "MIT",
   "authors": [
-    "Peter Jurkovic (http://peterjurkovic.com)"
+    "Peter Jurkovic"
   ],
   "dependencies": {
     "angular": ">=1.3.0 <=1.4.0",

@@ -16,7 +16,7 @@ module.exports = function(grunt) {
         },
         concat: {
             dist: {
-                src: [CONF.srcPath + 'js/directives.js', CONF.srcPath + 'js/module.js'],
+                src: [CONF.srcPath + 'js/directives.js',CONF.srcPath + 'js/services.js', CONF.srcPath + 'js/module.js'],
                 dest: CONF.distPath + moduleName + '.js'
             }
         },

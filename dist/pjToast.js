@@ -1,8 +1,7 @@
 'use strict';
 
-    var pjToast = angular.module('pjToast.directives', ['pjToast.factories']);
-
-    pjToast.directive('toast', ['Toast', '$log', '$window', '$timeout',
+   angular.module('pjToast.directives', ['pjToast.factories'])
+    .directive('toast', ['Toast', '$log', '$window', '$timeout',
         function(Toast, $log, $window, $timeout) {
             return {
                 restrict: 'EA',
@@ -54,11 +53,9 @@
                 }
             };
         }
-    ]);
-
-
-    pjToast.directive('toastMessage', ['$timeout', '$compile', 'Toast',
-        function($timeout, $compile, Toast) {
+    ])
+    .directive('toastMessage', ['$timeout', 'Toast',
+        function($timeout, Toast) {
             return {
                 restrict: 'EA',
                 scope: {
@@ -85,6 +82,9 @@
                             });
                         }
                     });
+                    scope.dismiss = function() {
+                        Toast.dismiss();
+                    };
 
                 }
             };
@@ -92,14 +92,127 @@
     ]);
 
 
-(function(window, angular) {
-    'use strict';
+'use strict';
 
-    angular.module('pjToast', [
-            'ngSanitize',
-            'pjToast.directives',
-            'pjToast.factories'
-        ]
-    );
+    angular.module('pjToast.factories', [])
+    .factory('Toast' , ['$log', function($log) {
 
-})(window, window.angular);
+        var activeMessage = false,
+            messageQueue = [],
+            callBack = null,
+            defaults = {
+                wrappClassName : 'pj-toast',
+                msgClassName: '',
+                dismissOnTimeout: true,
+                timeout: 4000,
+                dismissButton: true,
+                dismissButtonHtml: '&times;',
+                dismissOnClick: true,
+                centerOnScroll : true
+            };
+
+        // Public ---------------------------------------
+
+        var registerCallback = function(cb){
+                if(angular.isFunction(cb)){
+                    callBack = cb;
+                    callBack();
+                }else{
+                    $log.warn('Toast callback is not a function.');
+                }
+            },
+
+            unregisterCallback = function () {
+                callBack = null;
+            },
+
+            getActiveMessage = function () {
+                return activeMessage;
+            },
+
+            dismiss = function() {
+                if(activeMessage){
+                    if(messageQueue.length){
+                        activeMessage = messageQueue[0];
+                        messageQueue.splice(0, 1);
+                    }else{
+                        activeMessage = false;
+                    }
+                }
+                return activeMessage;
+            },
+
+            success = function ( message ){
+                create( message, 'success');
+            },
+
+            info = function ( message ){
+                create( message, 'info');
+            },
+
+            warning = function ( message ){
+                create( message, 'warning');
+            },
+
+            danger = function ( message ){
+                create( message, 'danger');
+            },
+
+            config = function(config) {
+                if(config){
+                    angular.extend(defaults, config);
+                }else{
+                    return defaults;
+                }
+            };
+        // Private ---------------------------------------
+
+        function create( message, className  ){
+            if(typeof message === 'string'){
+                message = {
+                    content: message,
+                    msgClassName : className
+                };
+            }
+            var newMessage = new Message(message);
+            if(activeMessage){
+                messageQueue.push(newMessage);
+            }else{
+                activeMessage = newMessage;
+            }
+            if(callBack){
+                callBack();
+            }
+        }
+
+
+        function Message(msg) {
+            this.msgClassName = defaults.msgClassName;
+            this.dismissOnTimeout = defaults.dismissOnTimeout;
+            this.timeout = defaults.timeout;
+            this.dismissButton = defaults.dismissButton;
+            this.dismissButtonHtml = defaults.dismissButtonHtml;
+            this.dismissOnClick = defaults.dismissOnClick;
+            angular.extend(this, msg);
+        }
+
+        return {
+            success : success,
+            info : info,
+            warning : warning,
+            danger : danger,
+            dismiss : dismiss,
+            config : config,
+            getActiveMessage : getActiveMessage,
+            registerCallback : registerCallback,
+            unregisterCallback : unregisterCallback
+        };
+    }]);
+'use strict';
+
+angular.module('pjToast', [
+        'ngSanitize',
+        'pjToast.directives',
+        'pjToast.factories'
+    ]
+);
