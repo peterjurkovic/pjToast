@@ -3,8 +3,8 @@
   "description": "AngularJS Toast",
   "version": "1.0.2",
   "main": [
-    "dist/pjToast.js",
-    "dist/pjToast.css"
+    "pjToast.js",
+    "pjToast.css"
   ],
   "homepage": "https://github.com/peterjurkovic/pjToast",
   "license": "MIT",
@@ -30,6 +30,10 @@
     ".travis.yml",
     "Gruntfile.js",
     "package.json",
-    "index.html"
+    "index.html",
+    "app.js",
+    "bower.json",
+    ".bower.json",
+    "karma.conf.js"
   ]
 }
