@@ -8,6 +8,8 @@ pjToast is a simple Angular module for toast notifications. This Toast notificat
 
 **[See Demos](http://pjtoast.peterjurkovic.sk/)**
 
+![Toast example](http://pjtoast.peterjurkovic.sk/toast-example.png)
+
 ## Usage
 
 1. Install via [Bower](http://bower.io/):
