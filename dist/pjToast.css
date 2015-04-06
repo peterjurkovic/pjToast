@@ -17,6 +17,15 @@
 
 
 .pj-toast .alert{
-    -webkit-box-shadow: 0 0 7px 3px #aaa;
-    box-shadow: 0 0 7px 3px #aaa;
+    -webkit-box-shadow: 0 0 15px 0px #aaa;
+    box-shadow: 0 0 15px 0px #aaa;
+    margin-bottom: 0;
+    border-width: 2px;
+}
+.pj-toast .alert .close{
+    float: none;
+    padding-left: 10px;
+}
+.pj-toast .glyphicon{
+    margin-right:10px;
 }

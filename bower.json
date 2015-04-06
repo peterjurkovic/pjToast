@@ -1,9 +1,10 @@
 {
   "name": "pjToast",
   "description": "AngularJS Toast",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": [
-    "dist/pjToast.js"
+    "dist/pjToast.js",
+    "dist/pjToast.css"
   ],
   "homepage": "https://github.com/peterjurkovic/pjToast",
   "license": "MIT",

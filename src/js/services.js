@@ -14,7 +14,8 @@
                 dismissButton: true,
                 dismissButtonHtml: '&times;',
                 dismissOnClick: true,
-                centerOnScroll : true
+                centerOnScroll : true,
+                withIcon : true
             };
 
         // Public ---------------------------------------
@@ -99,6 +100,16 @@
             this.dismissButton = defaults.dismissButton;
             this.dismissButtonHtml = defaults.dismissButtonHtml;
             this.dismissOnClick = defaults.dismissOnClick;
+            this.withIcon = defaults.withIcon;
+            this.icoClass = function () {
+                switch (this.msgClassName){
+                    case 'success' : return 'ok';
+                    case 'info' : return 'info-sign';
+                    case 'warning' : return 'alert';
+                    case 'danger' : return 'remove';
+                }
+                return '';
+            };
             angular.extend(this, msg);
         }
 

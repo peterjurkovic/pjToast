@@ -10,7 +10,7 @@
                 '<div class="{{config.wrappClassName}}" ng-show="message" >' +
                 '<toast-message message="message"></toast-message>' +
                 '</div>',
-                 link : function(scope, element, attrs){
+                 link : function(scope, element){
                     scope.config = Toast.config();
                     var center = function (element) {
                         element
@@ -62,29 +62,31 @@
                     message: '='
                 },
                 template:
-                '<div class="alert alert-{{message.msgClassName}}">' +
+                '<div ng-click="dismiss()" class="alert alert-{{message.msgClassName}}">' +
+                '<span ng-if="message.withIcon" class="glyphicon glyphicon-{{message.icoClass()}}"></span>' +
                 '{{message.content}}' +
                 '<button type="button" class="close" ' +
-                'ng-if="message.dismissButton" ' +
-                'ng-bind-html="message.dismissButtonHtml" ' +
-                'ng-click="!message.dismissOnClick && dismiss()"></button>' +
+                'ng-if="message.dismissOnClick" ' +
+                'ng-bind-html="message.dismissButtonHtml"></button>' +
                 '</div>',
-                link: function(scope, element, attrs) {
+                link: function(scope) {
+                    var promise = false;
                     scope.$watch('message', function(){
                         if (scope.message.dismissOnTimeout) {
-                            $timeout(function() {
+                           promise = $timeout(function() {
                                 scope.message = Toast.dismiss();
                             }, scope.message.timeout);
                         }
-                        if (scope.message.dismissOnClick) {
-                            element.bind('click', function() {
-                                scope.message = Toast.dismiss();
-                            });
-                        }
                     });
-                    scope.dismiss = function() {
-                        Toast.dismiss();
+                    scope.dismiss = function () {
+                        if (scope.message && scope.message.dismissOnClick) {
+                            if(promise){
+                                $timeout.cancel(promise);
+                            }
+                            scope.message = Toast.dismiss();
+                        }
                     };
+
 
                 }
             };
@@ -108,7 +110,8 @@
                 dismissButton: true,
                 dismissButtonHtml: '&times;',
                 dismissOnClick: true,
-                centerOnScroll : true
+                centerOnScroll : true,
+                withIcon : true
             };
 
         // Public ---------------------------------------
@@ -193,6 +196,16 @@
             this.dismissButton = defaults.dismissButton;
             this.dismissButtonHtml = defaults.dismissButtonHtml;
             this.dismissOnClick = defaults.dismissOnClick;
+            this.withIcon = defaults.withIcon;
+            this.icoClass = function () {
+                switch (this.msgClassName){
+                    case 'success' : return 'ok';
+                    case 'info' : return 'info-sign';
+                    case 'warning' : return 'alert';
+                    case 'danger' : return 'remove';
+                }
+                return '';
+            };
             angular.extend(this, msg);
         }
 
