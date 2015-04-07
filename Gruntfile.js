@@ -1,6 +1,6 @@
 var pkg = require('./package.json'),
     CONF = {
-        distPath: 'dist/',
+        distPath: 'tmp/',
         srcPath: 'src/'
     },
     moduleName = pkg.name;
@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         clean: {
             dist: {
-                src: [CONF.distPath]
+                src: [CONF.distPath, moduleName+'*.js', moduleName+'*.css']
             }
         },
         concat: {
@@ -28,6 +28,12 @@ module.exports = function(grunt) {
                 flatten: true,
                 expand: true,
                 filter: 'isFile'
+            },
+            fin : {
+                cwd: CONF.distPath ,
+                src: '**/*',
+                dest: '',
+                expand: true
             }
         },
         cssmin: {
@@ -60,13 +66,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
 
 
-    grunt.registerTask('default', [
+    grunt.registerTask('build', [
         'clean',
         'jshint',
         'concat',
-        'copy',
+        'copy:main',
         'cssmin',
-        'uglify'
+        'uglify',
+        'copy:fin'
     ]);
 
 }
