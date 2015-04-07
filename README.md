@@ -5,8 +5,11 @@ pjToast is a simple Angular module for toast notifications. This Toast notificat
 
 * The notification message is positioned absolute (to the center of screen)
 * Only one message is shown in given time (other additional messages are in the queue)
+* Bootstrap icons integrated
 
 **[See Demos](http://pjtoast.peterjurkovic.sk/)**
+
+![Toast example](http://pjtoast.peterjurkovic.sk/toast-example.png)
 
 ## Usage
 
