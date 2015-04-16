@@ -1,7 +1,7 @@
 {
   "name": "pjToast",
   "description": "AngularJS Toast",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": [
     "pjToast.js",
     "pjToast.css"
