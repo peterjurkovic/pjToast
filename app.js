@@ -15,7 +15,10 @@ app.controller('ToastController', function(Toast, $scope){
 
 
     $scope.infoToast = function(){
-        Toast.info('This is info Toast message!');
+        Toast.info({
+            content : 'This is info Toast message!',
+            withIcon : false
+        });
     };
 
     $scope.successToast = function(){

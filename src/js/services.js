@@ -80,6 +80,8 @@
                     content: message,
                     msgClassName : className
                 };
+            }else if(!angular.isDefined(message.msgClassName)){
+                message.msgClassName = className
             }
             var newMessage = new Message(message);
             if(activeMessage){
