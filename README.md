@@ -14,13 +14,13 @@ pjToast is a simple Angular module for toast notifications. This Toast notificat
 ## Usage
 
 1. Install via [Bower](http://bower.io/):
-  ```
+  ```javascript
   bower install pjToast --save
   ```
   
 2. Integration
   Include pjToast source files and dependencies ([Bootstrap CSS](http://getbootstrap.com/)):
-  ```
+  ```html
   <link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="bower/pjToast/pjToast.min.css">
   
@@ -28,7 +28,7 @@ pjToast is a simple Angular module for toast notifications. This Toast notificat
   ```
 3. Place toast element into your HTML:
 
-  ```
+  ```html
   <body>
     <toast></toast>
     ...
@@ -36,11 +36,11 @@ pjToast is a simple Angular module for toast notifications. This Toast notificat
   ```
 
 4. Inject `Toast` factory in your controller:
-```
-app.controller('myCtrl', ['Toast', function(Toast) {
-  Toast.success('This is your toast message!');
-}]);
-```
+  ```javascript
+  app.controller('myCtrl', ['Toast', function(Toast) {
+    Toast.success('This is your toast message!');
+  }]);
+  ```
 
 ### Toast methods
 
