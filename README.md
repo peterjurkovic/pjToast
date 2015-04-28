@@ -45,6 +45,10 @@ app.controller('myCtrl', ['Toast', function(Toast) {
 ### Toast methods
 
 
+![Toast example](http://pjtoast.peterjurkovic.sk/toast-info.png)
+![Toast example](http://pjtoast.peterjurkovic.sk/toast-warning.png)
+![Toast example](http://pjtoast.peterjurkovic.sk/toast-danger.png)
+
 
 
  
