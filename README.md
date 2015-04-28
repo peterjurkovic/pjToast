@@ -20,25 +20,30 @@ pjToast is a simple Angular module for toast notifications. This Toast notificat
   
 2. Integration
   Include pjToast source files and dependencies ([Bootstrap CSS](http://getbootstrap.com/)):
-```
-<link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="bower/pjToast/pjToast.min.css">
-
-<script src="bower/pjToast/pjToast.min.js"></script>
-```
+  ```
+  <link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower/pjToast/pjToast.min.css">
+  
+  <script src="bower/pjToast/pjToast.min.js"></script>
+  ```
 3. Place toast element into your HTML:
-```
-<body>
-  <toast></toast>
-  ...
-</body>
-```
+
+  ```
+  <body>
+    <toast></toast>
+    ...
+  </body>
+  ```
+
 4. Inject `Toast` factory in your controller:
 ```
 app.controller('myCtrl', ['Toast', function(Toast) {
   Toast.success('This is your toast message!');
 }]);
 ```
+
+### Toast methods
+
 
 
 
