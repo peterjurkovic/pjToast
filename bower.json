@@ -18,6 +18,12 @@
   "devDependencies": {
     "bootstrap": "~3.3.2"
   },
+  "keywords": [
+    "Angular notification",
+    "Toast",
+    "Notification",
+    "Toast message,
+    ],
   "ignore": [
     "**/.*",
     "node_modules",
