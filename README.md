@@ -49,6 +49,15 @@ pjToast is a simple Angular module for toast notifications. This Toast notificat
 ![Toast example](http://pjtoast.peterjurkovic.sk/toast-warning.png)
 ![Toast example](http://pjtoast.peterjurkovic.sk/toast-danger.png)
 
+## Settings
 
-
+| Property       |  Default | Description                                                                |
+|----------------|:--------:|----------------------------------------------------------------------------|
+| wrappClassName | pj-toast | CSS class which wrapp Toast message                                        |
+|  msgClassName  |    ''    | The message class name. (String)                                           |
+|     timeout    |   4000   | Wait time for removal of created toast message. (number)                   |
+|  dismissButton |   true   | Appends specified close button on toast message. (boolean)                 |
+| dismissOnClick |   true   | Allows toasts messages to be removed on mouse click. (boolean)             |
+| centerOnScroll |   true   | Sets toast message position fixed (still visible) on the screen. (boolean) |
+|    withIcon    |   true   | Show bootstrap icon. (boolean)                                             |
  
