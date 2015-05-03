@@ -1,7 +1,7 @@
 {
   "name": "pjToast",
   "description": "AngularJS Toast",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": [
     "pjToast.js",
     "pjToast.css"
@@ -22,7 +22,8 @@
     "Angular notification",
     "Toast",
     "Notifications",
-    "Toast notification",
+    "Toast notifications",
+    "Alert messages"
     ],
   "ignore": [
     "**/.*",
