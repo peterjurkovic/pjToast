@@ -29,3 +29,5 @@
 .pj-toast .glyphicon{
     margin-right:10px;
 }
+
+.pj-toast.ng-hide{display:none;}
